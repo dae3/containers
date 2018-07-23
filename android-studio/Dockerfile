@@ -15,7 +15,7 @@ RUN curl https://dl.google.com/dl/android/studio/ide-zips/3.1.3.0/android-studio
 	unzip android-studio-ide-173.4819257-linux.zip && \
 	rm android-studio-ide-173.4819257-linux.zip
 
-ENV HOME=/home
+RUN useradd -d /home -g kvm -u 1000 asuser
 VOLUME ["/projects"]
 VOLUME ["/sdk"]
 VOLUME ["/home"]

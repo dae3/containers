@@ -1,10 +1,10 @@
 docker run \
 	-u $(id -u) \
+	--group-add kvm \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
-	-v /dev/kvm:/dev/kvm \
+	--device /dev/kvm:/dev/kvm \
 	-v /media/data/StudioProjects:/projects \
-	-v ~/sdk:/sdk \
-	-v /media/data/android-studio-config:/home \
+	-v /media/data/android-studio:/home \
 	-e JAVA_HOME=/jdk/jre1.8.0_181 \
 	-e DISPLAY=unix$DISPLAY \
 	--name android-studio \
