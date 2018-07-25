@@ -4,6 +4,7 @@ docker run \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	--device /dev/kvm:/dev/kvm \
 	-v /media/data/StudioProjects:/projects \
+	-v /media/data/dropbox/Random:/keystore \
 	-v /media/data/android-studio:/home \
 	-e JAVA_HOME=/jdk/jre1.8.0_181 \
 	-e DISPLAY=unix$DISPLAY \

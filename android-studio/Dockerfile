@@ -16,9 +16,7 @@ RUN curl https://dl.google.com/dl/android/studio/ide-zips/3.1.3.0/android-studio
 	rm android-studio-ide-173.4819257-linux.zip
 
 RUN useradd -d /home -g kvm -u 1000 asuser
-VOLUME ["/projects"]
-VOLUME ["/sdk"]
-VOLUME ["/home"]
+VOLUME ["/projects","/sdk","/home","/keystore"]
 RUN chmod 777 /home /sdk 
 
 WORKDIR /studio/android-studio/bin
