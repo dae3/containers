@@ -1,0 +1,32 @@
+#!/bin/bash
+
+CONFIG=/media/data/keepass/keepass.localconfig.xml
+
+if [ ! -e $CONFIG ] ; then
+	cat <<- _END_ > $CONFIG 
+	<?xml version="1.0" encoding="utf-8"?>
+	<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<Security>
+			<WorkspaceLocking>
+				<LockOnWindowMinimize>true</LockOnWindowMinimize>
+			</WorkspaceLocking>
+		</Security>
+	</Configuration>
+	_END_
+fi
+
+if [[ $(docker inspect keepass --format "{{.State.Status}}") == 'running' ]] ; then
+	echo 'r' ;
+else
+	docker run \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-e DISPLAY=unix$DISPLAY \
+		-d \
+		--rm \
+		-v /media/data/keepass:/config \
+		-v /media/data/dropbox:/data \
+		-u $(id -u) \
+		--name keepass \
+		keepass
+fi
