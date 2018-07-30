@@ -1,6 +1,7 @@
 #!/bin/bash
 
 CONFIG=/media/data/keepass/keepass.localconfig.xml
+CONTAINERNAME=keepass
 
 if [ ! -e $CONFIG ] ; then
 	cat <<- _END_ > $CONFIG 
@@ -17,7 +18,8 @@ if [ ! -e $CONFIG ] ; then
 fi
 
 if [[ $(docker inspect keepass --format "{{.State.Status}}") == 'running' ]] ; then
-	echo 'r' ;
+	echo 'already running' ;
+	docker exec $CONTAINERNAME mono /keepass/KeePass.exe $@
 else
 	docker run \
 		-v /tmp/.X11-unix:/tmp/.X11-unix \
@@ -27,6 +29,6 @@ else
 		-v /media/data/keepass:/config \
 		-v /media/data/dropbox:/data \
 		-u $(id -u) \
-		--name keepass \
+		--name $CONTAINERNAME \
 		keepass
 fi
