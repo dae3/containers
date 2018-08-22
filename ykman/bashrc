@@ -1,0 +1,12 @@
+ykcmd() {
+	docker run \
+		-it \
+	 	--rm \
+		--name yk \
+		--device /dev/bus/usb:/dev/bus/usb \
+		yk \
+		$@
+}
+	
+alias ykman="ykcmd ykman"
+alias ykpers="ykcmd ykpersonalize"
