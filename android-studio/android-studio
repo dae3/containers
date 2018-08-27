@@ -3,6 +3,10 @@ docker run \
 	--group-add kvm \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	--device /dev/kvm:/dev/kvm \
+	--device /dev/android:/dev/android \
+	--device /dev/android_adb:/dev/android_adb \
+	--device /dev/bus/usb:/dev/bus/usb \
+	--group-add $(getent group adbusers | cut -d: -f3) \
 	-v /media/data/StudioProjects:/projects \
 	-v /media/data/dropbox/Random:/keystore \
 	-v /media/data/android-studio:/home \
