@@ -1,11 +1,8 @@
-docker run \
-	-u $(id -u) \
+#!/bin/bash
+
+DOCKER_ARGS="-u $UID \
 	--group-add kvm \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
-	--device /dev/kvm:/dev/kvm \
-	--device /dev/android:/dev/android \
-	--device /dev/android_adb:/dev/android_adb \
-	--device /dev/bus/usb:/dev/bus/usb \
 	--group-add $(getent group adbusers | cut -d: -f3) \
 	-v /media/data/StudioProjects:/projects \
 	-v /media/data/dropbox/Random:/keystore \
@@ -13,5 +10,18 @@ docker run \
 	-e JAVA_HOME=/jdk/jre1.8.0_181 \
 	-e DISPLAY=unix$DISPLAY \
 	--name android-studio \
-	-d \
-	android-studio
+	-d" \
+
+if [[ -c /dev/android && -c /dev/android_adb ]]
+then
+	DEVNAMES=kvm android android_adb bus/usb
+else
+	DEVNAMES=kvm 
+fi
+
+for dev in $DEVNAMES
+do
+	DEVICES="--device /dev/${dev}:/dev/${dev} "
+done
+
+docker run $DOCKER_ARGS $DEVICES android-studio
