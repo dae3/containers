@@ -17,7 +17,7 @@ if [ ! -e $CONFIG ] ; then
 	_END_
 fi
 
-if [[ $(docker inspect keepass --format "{{.State.Status}}") == 'running' ]] ; then
+if [[ $(docker inspect keepass --format "{{.State.Status}}" 2> /dev/null) == 'running' ]] ; then
 	echo 'already running' ;
 	docker exec $CONTAINERNAME mono /keepass/KeePass.exe $@
 else
@@ -25,10 +25,13 @@ else
 		-v /tmp/.X11-unix:/tmp/.X11-unix \
 		-e DISPLAY=unix$DISPLAY \
 		-d \
-		--rm \
+		-v $XAUTHORITY:/keepass/.Xauthority:ro \
+		-e XAUTHORITY="/keepass/.Xauthority" \
+		-h $HOSTNAME \
 		-v $HOME/keepass:/config \
 		-v $HOME/dropbox:/data \
 		-u $(id -u) \
+		--rm \
 		--name $CONTAINERNAME \
 		keepass
 fi
