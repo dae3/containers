@@ -1,0 +1,16 @@
+#!/bin/bash
+
+docker run  \
+	--rm \
+	-d \
+	-v /tmp/.X11-unix:/tmp/.X11-unix \
+	-e DISPLAY=unix$DISPLAY \
+	-v $XAUTHORITY:/keepass/.Xauthority:ro \
+	-v $HOME/sh3d:/home \
+	-v $HOME:/data \
+	-e XAUTHORITY="/keepass/.Xauthority" \
+	--device /dev/dri \
+	-h $HOSTNAME \
+	-u $(id -u) \
+	--name sweethome3d \
+	sweethome3d
