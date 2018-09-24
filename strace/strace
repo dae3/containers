@@ -1,0 +1,42 @@
+#!/bin/bash
+
+case $# in
+	0)
+	ARGERR="usage is strace <target container name> [pid]"
+	;;
+	
+	1)
+	TARGET=$1
+	PID=1
+	;;
+
+	2)
+	TARGET=$1
+	PID=$2
+	;;
+
+	3)
+	ARGERR="usage is strace <target container name> [pid]"
+esac
+
+if [[ -z $ARGERR ]] ;
+then
+	docker inspect ${1} 2>1 >/dev/null
+	if [[ $? ]] ;
+	then
+		docker run \
+				 -it \
+				 --rm \
+				 --name strace-${TARGET} \
+				 --pid=container:${TARGET} \
+				 --net=container:${TARGET} \
+				 --cap-add sys_admin \
+				 --cap-add sys_ptrace \
+				 strace \
+				 strace -f -p ${PID}
+	else
+		echo "No running container named ${1}"
+	fi
+else
+	echo $ARGERR
+fi
