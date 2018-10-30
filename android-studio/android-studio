@@ -38,3 +38,4 @@ do
 done
 
 docker run $DOCKER_ARGS $DEVICES android-studio:3.2.1
+docker exec -it -u0 android-studio chgrp kvm /dev/kvm
