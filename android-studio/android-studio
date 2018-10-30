@@ -11,6 +11,8 @@ DOCKER_ARGS="-u $UID \
 	-e JAVA_HOME=/jdk/jre1.8.0_181 \
 	-e DISPLAY=unix$DISPLAY \
 	-e XAUTHORITY=/home/.Xauthority \
+	-v /etc/timezone:/etc/timezone:ro \
+	-v /etc/localtime:/etc/localtime:ro \
 	-v $XAUTHORITY:/home/.Xauthority \
 	-h $HOSTNAME \
 	--name android-studio \
@@ -35,4 +37,4 @@ do
 	DEVICES+="--device /dev/${dev}:/dev/${dev} "
 done
 
-docker run $DOCKER_ARGS $DEVICES android-studio
+docker run $DOCKER_ARGS $DEVICES android-studio:3.2.1
