@@ -1,0 +1,15 @@
+#!/bin/bash
+
+docker run -it \
+	-v /tmp/.X11-unix:/tmp/.X11-unix \
+	-d \
+	--device /dev/dri:/dev/dri \
+	-e DISPLAY=unix$DISPLAY \
+	-v $HOME:/data \
+	-v $XAUTHORITY:/keepass/.Xauthority:ro \
+	-e XAUTHORITY="/keepass/.Xauthority" \
+	-h $HOSTNAME \
+	-u $(id -u) \
+	--rm \
+	--name librecad \
+	librecad
