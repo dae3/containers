@@ -1,0 +1,13 @@
+#!/bin/sh
+case "$2,$3" in
+  ,|template,)
+    if git diff-index --diff-filter=A --name-only --cached HEAD \
+        | grep -q '/APKBUILD$'; then
+      meta() { git diff --staged | grep "^+$1" | sed 's/.*="\?//;s/"$//';}
+      printf 'testing/%s: new aport\n\n%s\n%s\n' "$(meta pkgname)" \
+        "$(meta url)" "$(meta pkgdesc)" "$(cat $1)" > "$1"
+    else
+      printf '%s\n\n%s' `git diff-index --name-only --cached HEAD \
+        | sed -n 's/\/APKBUILD$//p;q'` "$(cat $1)" > "$1"
+    fi;;
+esac
