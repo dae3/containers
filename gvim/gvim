@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# map the path of 1st argument (I'll generalise this later)
+if [[ ${#1} -gt 0 ]] ; then
+	ARG1=$(readlink -f $1 | sed -e "s|$HOME|/home|")
+else
+	ARG1=""
+fi
+
+docker run \
+	-v /tmp/.X11-unix:/tmp/.X11-unix \
+	-e DISPLAY=unix$DISPLAY \
+	-e HOME=/home \
+	-v $HOME:/home \
+	-h $HOSTNAME \
+	-u $(id -u) \
+	--rm \
+	--name gvim \
+	gvim $ARG1
