@@ -6,8 +6,8 @@ docker run -it \
 	--memory 512mb \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-e DISPLAY=unix$DISPLAY \
-	-v $HOME/downloads:/home/chromium/Downloads \
-	-v $HOME/.config/dchromium/:/data \
+	-v $HOME/downloads:/home/chrome/Downloads \
+	-v $HOME/.config/dchrome/:/data \
 	--security-opt seccomp=$HOME/chrome.json \
 	--device /dev/snd \
 	-v $XAUTHORITY:/keepass/.Xauthority:ro \
@@ -15,5 +15,5 @@ docker run -it \
 	-h $HOSTNAME \
 	-u $(id -u) \
 	-v /dev/shm:/dev/shm \
-	--name chromium \
-	chromium
+	--name chrome \
+	chrome
