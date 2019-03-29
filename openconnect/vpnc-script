@@ -1,25 +1,14 @@
 #!/bin/bash
 
 case ${reason} in
-	pre-init)
-		DEFAULT_ROUTE=$(ip route | grep ^default)
-		NS=$(grep nameserver /etc/resolv.conf)
-		;;
-
 	connect)
-		echo VPNGATEWAY ${VPNGATEWAY}
-		echo INTERNAL_IP4_ADDRESS ${INTERNAL_IP4_ADDRESS}
-		echo TUNDEV ${TUNDEV}
-		echo DEFAULT_ROUTE ${DEFAULT_ROUTE}
-		#ip route add 10.0.0.0/8 via ${VPNGATEWAY} dev ${TUNDEV}
-		#ip route add ${DEFAULT_ROUTE}
+		ip addr add ${INTERNAL_IP4_ADDRESS} dev ${TUNDEV}
+		ip link set ${TUNDEV} up
+		ip route add 10.0.0.0/8 via ${INTERNAL_IP4_ADDRESS} dev ${TUNDEV}
+		iptables -t nat -A POSTROUTING -d 10.0.0.0/8 -j SNAT --to-source ${INTERNAL_IP4_ADDRESS}
 
-		# need to do this via NetworkManager anyway
-		cat <<- EOF > /etc/resolv.conf 
-			nameserver $(echo ${INTERNAL_IP4_DNS} | sed -e 's/ /\n/')
-			nameserver ${NS}
-		EOF
-
+		echo Remote nameservers are ${INTERNAL_IP4_DNS}
+		echo ip route 10.0.0.0/8 via $(ip addr | awk '/inet.*eth0/ { print $2 }' | cut -d/ -f1)
 		;;
 
 	disconnect)
@@ -28,6 +17,3 @@ case ${reason} in
 		;;
 
 esac
-
-# remove the automatically added default route
-#ip route del $(ip route | grep default)
