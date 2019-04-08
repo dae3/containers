@@ -15,6 +15,7 @@ DOCKER_ARGS="-u $UID \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v $XAUTHORITY:/home/.Xauthority \
 	-h $HOSTNAME \
+	--dns 172.17.0.1 \
 	--name android-studio \
 	--rm \
 	-d"
