@@ -6,7 +6,7 @@
 #	--name gimp \
 #	jess/gimp
 #
-FROM debian:buster
+FROM debian:stretch
 
 RUN apt-get update && apt-get install -y \
 	inkscape \
