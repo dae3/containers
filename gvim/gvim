@@ -15,5 +15,5 @@ docker run \
 	-h $HOSTNAME \
 	-u $(id -u) \
 	--rm \
-	--name gvim \
-	gvim $ARG1
+	--name gvim-testing-with-python \
+	gvim:testing-with-python $ARG1
