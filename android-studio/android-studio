@@ -16,7 +16,7 @@ DOCKER_ARGS="-u $UID \
 	-v $XAUTHORITY:/home/.Xauthority \
 	-h $HOSTNAME \
 	--dns 172.17.0.1 \
-	--name android-studio \
+	--name android-studio-332 \
 	--rm \
 	-d"
 
@@ -38,8 +38,8 @@ do
 	DEVICES+="--device /dev/${dev}:/dev/${dev} "
 done
 
-docker run $DOCKER_ARGS $DEVICES android-studio:3.2.1
-docker exec -it -u0 android-studio chgrp kvm /dev/kvm
+docker run $DOCKER_ARGS $DEVICES android-studio:3.3.2
+#docker exec -it -u0 android-studio chgrp kvm /dev/kvm
 
 # config backup
-cp -R $HOME/android-studio/.AndroidStudio3.2/* $HOME/dropbox/backup/android-studio
+#cp -R $HOME/android-studio/.AndroidStudio3.2/* $HOME/dropbox/backup/android-studio

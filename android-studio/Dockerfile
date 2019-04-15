@@ -9,7 +9,7 @@ WORKDIR /jdk
 RUN curl -L http://javadl.oracle.com/webapps/download/AutoDL?BundleId=234464_96a7b8442fe848ef90c96a2fad6ed6d1 | tar zxf -
 
 WORKDIR /studio/
-RUN curl -L  https://dl.google.com/dl/android/studio/ide-zips/3.2.1.0/android-studio-ide-181.5056338-linux.zip -o as.zip && \
+RUN curl -L https://dl.google.com/dl/android/studio/ide-zips/3.3.2.0/android-studio-ide-182.5314842-linux.zip -o as.zip && \
 	unzip as.zip && \
 	rm -f as.zip
 
@@ -24,7 +24,7 @@ RUN chown -R asuser /studio
 #  devices to adbusers 
 RUN groupadd adbusers
 VOLUME ["/projects","/sdk","/home","/keystore"]
-RUN chmod 777 /home /sdk 
+RUN chmod 777 /home
 
 WORKDIR /studio/android-studio/bin
 CMD ["sh","-c","./studio.sh"]
